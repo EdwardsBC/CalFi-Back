@@ -1,4 +1,4 @@
-const db = require('../db');
+const db = require('../../db/connection');
 
 exports.validate = async (req, res) => {
   const { correo, codigo } = req.body;

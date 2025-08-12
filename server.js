@@ -2,8 +2,8 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-const authRoutes = require('./routes/authRoutes');
-const expensesRoutes = require('./routes/expensesRoutes'); // Renombrado
+const authRoutes = require('./src/routes/authRoutes');
+const expensesRoutes = require('./src/routes/expensesRoutes'); // Renombrado
 
 const app = express();
 app.use(cors());
