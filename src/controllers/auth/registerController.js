@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
     }
 
     // Validar si el nombre de usuario ya existe
-    const [existingUsername] = await db.query('SELECT id FROM users WHERE username = ?', [nombre]);
+    const [existingUsername] = await db.query('SELECT id FROM users WHERE name = ?', [nombre]);
     if (existingUsername.length > 0) {
       return res.status(400).json({ success: false, message: 'El nombre de usuario ya está registrado.' });
     }

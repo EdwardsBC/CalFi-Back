@@ -1,8 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db/connection');
+const authMiddleware = require('../middlewares/authMiddleware');
 
-// GET all expenses (for test purposes)
+// Todas las rutas de gastos requieren autenticación
+router.use(authMiddleware);
+
+// GET all expenses
 router.get('/', async (req, res) => {
   try {
     const [rows] = await db.query('SELECT * FROM expenses ORDER BY date');
