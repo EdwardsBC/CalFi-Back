@@ -1,4 +1,3 @@
-// src/routes/authRoutes.js
 const express = require('express');
 const router = express.Router();
 
@@ -10,12 +9,12 @@ const { profile } = require('../controllers/auth/profileController');
 
 const authMiddleware = require('../middlewares/authMiddleware');
 
-// Endpoints públicos
+// Públicos
 router.post('/register', register);
 router.post('/login', login);
+router.post('/validate', validate);
 
-// Endpoints protegidos
-router.post('/validate', authMiddleware, validate);
+// Protegidos
 router.post('/logout', authMiddleware, logout);
 router.get('/profile', authMiddleware, profile);
 

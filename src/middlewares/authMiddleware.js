@@ -1,15 +1,17 @@
-// src/middlewares/authMiddleware.js
 const jwt = require('jsonwebtoken');
 
-module.exports = function (req, res, next) {
-  const token = req.header('Authorization')?.split(' ')[1]; // Formato: Bearer <token>
-  if (!token) return res.status(401).json({ message: 'Acceso denegado. Token requerido.' });
+module.exports = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  if (!authHeader) return res.status(401).json({ message: 'No autorizado, falta token' });
+
+  const token = authHeader.split(' ')[1];
+  if (!token) return res.status(401).json({ message: 'Token inválido' });
 
   try {
-    const verified = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = verified; // Guardamos datos decodificados del usuario
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // { id, email }
     next();
   } catch (error) {
-    return res.status(400).json({ message: 'Token inválido.' });
+    return res.status(401).json({ message: 'Token inválido o expirado' });
   }
 };

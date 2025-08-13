@@ -1,20 +1,20 @@
-// src/controllers/auth/profileController.js
 const db = require('../../db/connection');
 
 exports.profile = async (req, res) => {
   try {
+    const userId = req.user.id; // viene del authMiddleware
     const [rows] = await db.query(
-      'SELECT id, username, email, created_at FROM users WHERE id = ?',
-      [req.user.id] // id viene del token
+      'SELECT id, name, email FROM users WHERE id = ? LIMIT 1',
+      [userId]
     );
 
     if (rows.length === 0) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
+      return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
     }
 
-    res.json(rows[0]);
+    return res.json(rows[0]);
   } catch (error) {
-    console.error('Error obteniendo perfil:', error);
-    res.status(500).json({ message: 'Error interno del servidor' });
+    console.error('Error en /profile:', error);
+    return res.status(500).json({ success: false, message: 'Error interno del servidor.' });
   }
 };
